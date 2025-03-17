@@ -52,9 +52,8 @@ function App() {
             <div className="about-me-text">
               <h3>Sobre Mim</h3>
               <p>
-                Olá! Meu nome é [Seu Nome], sou um(a) [Sua Profissão] apaixonado(a) por
-                [Área de Atuação]. Com [X anos] de experiência, já trabalhei em projetos
-                incríveis, como [Exemplos de Projetos]. Adoro desafios e estou sempre
+                Olá! Meu nome é Assis Neto, sou um desenvolvedor apaixonado por
+                tecnologia. Com 4 de experiência dentro da area de TI. Adoro desafios e estou sempre
                 buscando aprender coisas novas. Aqui você pode conferir alguns dos meus
                 trabalhos!
               </p>
@@ -85,7 +84,7 @@ function App() {
         </section>
       </main>
       <footer className="footer">
-        <p>&copy; 2023 Meu Portfólio</p>
+        <p>&copy; 2025</p>
       </footer>
     </div>
   );
