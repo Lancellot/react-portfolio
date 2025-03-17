@@ -45,10 +45,19 @@ function App() {
         <section className="hero">
           <h2>Bem-vindo ao meu portfólio!</h2>
           <div className="about-me">
-            <h3>Sobre Mim</h3>
-            <p>
-              Olá! Meu nome é Assis Pires Neto, sou um profissional de TI com 4 anos de experiência, e atualmente estou em transição para a área de desenvolvimento. Durante minha trajetória, tive a oportunidade de trabalhar em diversos projetos que me permitiram adquirir conhecimentos sólidos em tecnologia e soluções inovadoras. Agora, estou direcionando minha carreira para o desenvolvimento, com foco em criar interfaces modernas, funcionais e responsivas que proporcionem uma excelente experiência ao usuário.
-            </p>
+            <div className="profile-picture">
+              <img src="./src/img/cavalheirozinho.png" alt="Foto de Perfil" />
+            </div>
+            <div className="about-me-text">
+              <h3>Sobre Mim</h3>
+              <p>
+                Olá! Meu nome é [Seu Nome], sou um(a) [Sua Profissão] apaixonado(a) por
+                [Área de Atuação]. Com [X anos] de experiência, já trabalhei em projetos
+                incríveis, como [Exemplos de Projetos]. Adoro desafios e estou sempre
+                buscando aprender coisas novas. Aqui você pode conferir alguns dos meus
+                trabalhos!
+              </p>
+            </div>
           </div>
         </section>
 
@@ -75,7 +84,7 @@ function App() {
         </section>
       </main>
       <footer className="footer">
-        <p>&copy; 2025 Assis Pire Neto</p>
+        <p>&copy; 2025 Assis</p>
       </footer>
     </div>
   );

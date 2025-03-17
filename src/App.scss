@@ -113,6 +113,48 @@ body {
     color: #666;
     line-height: 1.6;
   }
+  /* Estilos da seção "Sobre Mim" */
+.about-me {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem 0;
+  text-align: left;
+
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .about-me-text {
+    flex: 1;
+
+    h3 {
+      font-size: 1.5rem;
+      color: #6200ea;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.6;
+    }
+  }
+}
 }
 
 /* Conteúdo principal */
