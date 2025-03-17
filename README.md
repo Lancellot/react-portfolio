@@ -37,9 +37,10 @@ Siga os passos abaixo para rodar o projeto na sua máquina:
    git clone https://github.com/seu-usuario/meu-portfolio.git
 
 Instale as dependências:
+ ```bash  
    cd meu-portfolio
-npm install
+   npm install
 
-Inicie o servidor de desenvolvimento:
+###Inicie o servidor de desenvolvimento:
 npm start
 
