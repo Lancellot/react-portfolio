@@ -1,23 +1,11 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* Estilos globais */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif; /* Fonte moderna */
   background-color: #f4f4f9;
   color: #333;
   line-height: 1.6;
-}
-
-/* Container principal */
-.App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0px;
 }
 
 /* Cabeçalho */
@@ -35,7 +23,7 @@ body {
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaço entre o logo e o texto */
+    gap: 10px;
   }
 
   nav {
@@ -58,7 +46,7 @@ body {
   display: inline-block;
   width: 40px;
   height: 40px;
-  background-color: #ffffff; /* Fundo branco */
+  background-color: #ffffff;
   border-radius: 8px;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -71,7 +59,7 @@ body {
     transform: translate(-50%, -50%);
     width: 24px;
     height: 24px;
-    background-color: #6200ea; /* Roxo escuro */
+    background-color: #6200ea;
     border-radius: 50%;
   }
 
@@ -83,96 +71,109 @@ body {
     transform: translate(-50%, -50%);
     width: 12px;
     height: 12px;
-    background-color: #bb86fc; /* Roxo claro */
+    background-color: #bb86fc;
     border-radius: 50%;
   }
 }
 
-/* Conteúdo principal */
-.main-content {
-  flex: 1;
+/* Seção Home */
+#home {
   padding: 2rem;
-  text-align: center;
+  margin: 2rem 0;
+
+  .welcome-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .welcome-content {
+      flex: 1;
+
+      h2 {
+        font-size: 2.5rem;
+        color: #6200ea;
+        margin-bottom: 1.5rem;
+      }
+
+      .intro-text {
+        font-size: 1.2rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+
+      .about-me-text {
+        h3 {
+          font-size: 1.8rem;
+          color: #6200ea;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          font-size: 1.1rem;
+          color: #666;
+          line-height: 1.8;
+        }
+      }
+
+      .skills {
+        margin-top: 2rem;
+
+        h3 {
+          font-size: 1.8rem;
+          color: #6200ea;
+          margin-bottom: 1rem;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .profile-picture {
+      flex: 0 0 300px;
+      height: 300px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      img {
+        width: 120%;
+        height: 150%;
+        object-fit: cover;
+        transform: scaleX(-1);
+      }
+    }
+  }
 }
 
-/* Seção hero */
-.hero {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
-
+/* Seção Portfólio */
+#portfolio {
+  padding: 0 15px 0 15px;
   h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
     color: #6200ea;
-  }
-}
-
-/* Seção "Sobre Mim" */
-.about-me {
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 1.5rem 0;
-  text-align: left;
-
-  .profile-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 1.5rem;
-    flex-shrink: 0;
-
-    img {
-      width: 100%;
-      height: 140%;
-      object-fit: cover;
-    }
-  }
-
-  .about-me-text {
-    flex: 1;
-
-    h3 {
-      font-size: 1.5rem;
-      color: #6200ea;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #666;
-      line-height: 1.6;
-    }
-  }
-}
-
-/* Seção do Portfólio */
-.portfolio {
-  margin-top: 2rem;
-
-  h2 {
-    font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: #6200ea;
   }
 
   .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
-    padding: 0 1rem;
   }
 
   .portfolio-item {
-    background-color: #ffffff;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -190,8 +191,8 @@ body {
 
     h3 {
       font-size: 1.5rem;
-      margin: 1rem 0 0.5rem 0;
       color: #333;
+      margin: 1rem 0 0.5rem 0;
     }
 
     p {
@@ -217,6 +218,51 @@ body {
   }
 }
 
+/* Seção Contato */
+#contato {
+  padding: 0 15px 10px 15px;
+  h2 {
+    font-size: 2.5rem;
+    color: #6200ea;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    input, textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.8rem;
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 200px;
+      align-self: center;
+
+      &:hover {
+        background-color: #3700b3;
+      }
+    }
+  }
+}
+
 /* Rodapé */
 .footer {
   background-color: #333;
@@ -225,82 +271,30 @@ body {
   padding: 1rem;
   margin-top: auto;
 
-  p {
-    margin: 0;
-    font-size: 0.9rem;
-  }
-}
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    text-align: center;
+    .footer-contact {
+      text-align: right;
 
-    h1 {
-      margin-bottom: 1rem;
-    }
-
-    nav {
-      a {
-        margin: 0 0.5rem;
+      p {
+        margin: 0.5rem 0;
       }
-    }
-  }
 
-  .hero {
-    padding: 1.5rem;
-
-    h2 {
-      font-size: 1.5rem;
-    }
-  }
-
-  .about-me {
-    flex-direction: column;
-    text-align: center;
-
-    .profile-picture {
-      margin-right: 0;
-      margin-bottom: 1.5rem;
-    }
-  }
-
-  .portfolio-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .header {
-    padding: 0.8rem;
-
-    h1 {
-      font-size: 1.5rem;
-    }
-
-    nav {
       a {
-        font-size: 0.9rem;
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #bb86fc;
+        }
       }
-    }
-  }
-
-  .hero {
-    padding: 1rem;
-
-    h2 {
-      font-size: 1.2rem;
-    }
-  }
-
-  .portfolio-item {
-    h3 {
-      font-size: 1.2rem;
-    }
-
-    p {
-      font-size: 0.9rem;
     }
   }
 }

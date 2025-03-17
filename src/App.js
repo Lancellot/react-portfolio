@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
-import fotoPerfil from './img/foto-perfil.jpg'; 
+import fotoPerfil from './img/foto-perfil.jpg'; // Importe a imagem
+
 function App() {
   // Array de projetos
   const projects = [
@@ -35,32 +36,43 @@ function App() {
           Meu Portfólio
         </h1>
         <nav>
-          <a href="#">Home</a>
-          <a href="#">Sobre</a>
-          <a href="#">Portfólio</a>
-          <a href="#">Contato</a>
+          <a href="#home">Home</a>
+          <a href="#portfolio">Portfólio</a>
+          <a href="#contato">Contato</a>
         </nav>
       </header>
       <main className="main-content">
-        <section className="hero">
-          <h2>Bem-vindo ao meu portfólio!</h2>
-          <div className="about-me">
-            <div className="profile-picture">
-              <img src={fotoPerfil} alt="Foto de Perfil" /> 
-            <div className="about-me-text">
-              <h3>Sobre Mim</h3>
-              <p>
-                Olá! Meu nome é Assis Neto, sou um desenvolvedor apaixonado por
-                tecnologia. Com 4 de experiência dentro da area de TI. Adoro desafios e estou sempre
-                buscando aprender coisas novas. Aqui você pode conferir alguns dos meus
-                trabalhos!
+        {/* Seção Home */}
+        <section id="home">
+          <div className="welcome-section">
+            <div className="welcome-content">
+              <h2>Bem-vindo ao meu portfólio!</h2>
+              <p className="intro-text">
+                Olá! Seja bem-vindo ao meu espaço digital. Sou um <strong>Desenvolvedor Front-End</strong>, apaixonado por tecnologia e criação de interfaces web modernas e responsivas.
               </p>
+              <div className="about-me-text">
+                <h3>Sobre Mim</h3>
+                <p>
+                  Meu nome é <strong>Assis Neto</strong>, sou um desenvolvedor apaixonado por tecnologia. Com <strong>4 anos de experiência</strong> na área de TI, adoro desafios e estou sempre buscando aprender coisas novas. Aqui você pode conferir alguns dos meus trabalhos!
+                </p>
+              </div>
+              <div className="skills">
+                <h3>Habilidades Técnicas</h3>
+                <ul>
+                  <li>Front-End: <strong>HTML</strong>, <strong>CSS</strong>, <strong>JavaScript</strong>, <strong>React</strong></li>
+                  <li>Back-End: <strong>PHP</strong>, <strong>MySQL</strong></li>
+                  <li>Ferramentas: <strong>Git</strong>, <strong>GitHub</strong>, <strong>VS Code</strong></li>
+                </ul>
+              </div>
+            </div>
+            <div className="profile-picture">
+              <img src={fotoPerfil} alt="Foto de Perfil" /> {/* Use a imagem importada */}
             </div>
           </div>
         </section>
 
-        {/* Seção do Portfólio */}
-        <section className="portfolio">
+        {/* Seção Portfólio */}
+        <section id="portfolio">
           <h2>Meus Projetos</h2>
           <div className="portfolio-grid">
             {projects.map((project) => (
@@ -80,9 +92,29 @@ function App() {
             ))}
           </div>
         </section>
+
+        {/* Seção Contato */}
+        <section id="contato">
+          <h2>Contato</h2>
+          <p>
+            Entre em contato comigo através do formulário abaixo ou pelas redes sociais.
+          </p>
+          <form className="contact-form">
+            <input type="text" placeholder="Seu nome" required />
+            <input type="email" placeholder="Seu e-mail" required />
+            <textarea placeholder="Sua mensagem" rows="5" required></textarea>
+            <button type="submit">Enviar</button>
+          </form>
+        </section>
       </main>
       <footer className="footer">
-        <p>&copy; 2025</p>
+        <div className="footer-content">
+          <p>&copy; 2025 Assis</p>
+          <div className="footer-contact">
+            <p>Email: <a href="mailto:assis@example.com">assis@example.com</a></p>
+            <p>Telefone: <a href="tel:+5511999999999">+55 (11) 99999-9999</a></p>
+          </div>
+        </div>
       </footer>
     </div>
   );
