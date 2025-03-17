@@ -33,6 +33,9 @@ body {
   h1 {
     font-size: 1.8rem;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre o logo e o texto */
   }
 
   nav {
@@ -50,15 +53,7 @@ body {
   }
 }
 
-/* Estilos do Logo no H1 */
-.header h1 {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Espaço entre o logo e o texto */
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-
+/* Estilos do Logo */
 .logo {
   display: inline-block;
   width: 40px;
@@ -93,27 +88,30 @@ body {
   }
 }
 
-/* Estilos da seção "Sobre Mim" */
-.about-me {
+/* Conteúdo principal */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Seção hero */
+.hero {
   background-color: #ffffff;
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 1.5rem 0;
-  text-align: left;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
 
-  h3 {
-    font-size: 1.5rem;
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     color: #6200ea;
-    margin-bottom: 1rem;
   }
+}
 
-  p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 1.6;
-  }
-  /* Estilos da seção "Sobre Mim" */
+/* Seção "Sobre Mim" */
 .about-me {
   display: flex;
   align-items: center;
@@ -134,7 +132,7 @@ body {
 
     img {
       width: 100%;
-      height: 100%;
+      height: 140%;
       object-fit: cover;
     }
   }
@@ -152,51 +150,6 @@ body {
       font-size: 1rem;
       color: #666;
       line-height: 1.6;
-    }
-  }
-}
-}
-
-/* Conteúdo principal */
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  text-align: center;
-}
-
-/* Seção hero */
-.hero {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
-
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #6200ea;
-  }
-
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #666;
-  }
-
-  button {
-    background-color: #6200ea;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #3700b3;
     }
   }
 }
@@ -278,7 +231,6 @@ body {
   }
 }
 
-
 /* Responsividade */
 @media (max-width: 768px) {
   .header {
@@ -302,9 +254,15 @@ body {
     h2 {
       font-size: 1.5rem;
     }
+  }
 
-    p {
-      font-size: 1rem;
+  .about-me {
+    flex-direction: column;
+    text-align: center;
+
+    .profile-picture {
+      margin-right: 0;
+      margin-bottom: 1.5rem;
     }
   }
 
@@ -333,15 +291,6 @@ body {
 
     h2 {
       font-size: 1.2rem;
-    }
-
-    p {
-      font-size: 0.9rem;
-    }
-
-    button {
-      padding: 0.6rem 1rem;
-      font-size: 0.9rem;
     }
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import fotoPerfil from './img/foto-perfil.jpg'; // Importe a imagem
 
 function App() {
   // Array de projetos
@@ -46,7 +47,7 @@ function App() {
           <h2>Bem-vindo ao meu portfólio!</h2>
           <div className="about-me">
             <div className="profile-picture">
-              <img src="./src/img/cavalheirozinho.png" alt="Foto de Perfil" />
+              <img src={fotoPerfil} alt="Foto de Perfil" /> {/* Use a imagem importada */}
             </div>
             <div className="about-me-text">
               <h3>Sobre Mim</h3>
@@ -84,7 +85,7 @@ function App() {
         </section>
       </main>
       <footer className="footer">
-        <p>&copy; 2025 Assis</p>
+        <p>&copy; 2023 Meu Portfólio</p>
       </footer>
     </div>
   );
