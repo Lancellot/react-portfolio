@@ -18,17 +18,17 @@ Você pode acessar o portfólio online aqui:
 ## 📁 Estrutura do Projeto
 
 meu-portfolio/
-├── public/ # Arquivos estáticos (HTML, imagens, etc.)
-├── src/ # Código-fonte do projeto
-│ ├── components/ # Componentes React
-│ ├── App.js # Componente principal
-│ ├── App.scss # Estilos globais
-│ ├── index.js # Ponto de entrada do React
-│ └── img/ # Imagens do projeto
-├── package.json # Dependências e scripts do projeto
-├── README.md # Este arquivo
-└── ... # Outros arquivos de configuração
-Copy
+├── public/ # Arquivos estáticos (HTML, imagens, etc.)               
+├── src/ # Código-fonte do projeto                         
+│ ├── components/ # Componentes React                   
+│ ├── App.js # Componente principal                   
+│ ├── App.scss # Estilos globais                  
+│ ├── index.js # Ponto de entrada do React               
+│ └── img/ # Imagens do projeto            
+├── package.json # Dependências e scripts do projeto                  
+├── README.md # Este arquivo                    
+└── ... # Outros arquivos de configuração                             
+
 
 
 ## 🚀 Como Rodar o Projeto Localmente
