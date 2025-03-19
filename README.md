@@ -97,6 +97,6 @@ Para publicar o projeto no GitHub Pages, siga os passos abaixo:
 
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
-Feito com ❤️ por Assis
+Feito por Assis
 Copy
 
