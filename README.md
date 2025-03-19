@@ -5,7 +5,7 @@ Bem-vindo ao meu portfólio! Este é um projeto desenvolvido com **React**, **HT
 ## 🚀 Visualização
 
 Você pode acessar o portfólio online aqui:  
-👉 [https://seu-usuario.github.io/meu-portfolio](https://seu-usuario.github.io/meu-portfolio)
+👉 [https://lacellot.github.io/react-portfolio](https://lacellot.github.io/react-portfolio)
 
 ## 🛠️ Tecnologias Utilizadas
 
