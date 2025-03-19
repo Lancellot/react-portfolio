@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './App.scss';
-import fotoPerfil from './img/foto-perfil.jpg'; // Importe a imagem
+import fotoPerfil from './img/foto-perfil.jpg';
 
 function App() {
+  const sectionsRef = useRef([]);
+
   // Array de projetos
   const projects = [
     {
@@ -28,6 +30,34 @@ function App() {
     },
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible'); // Adiciona a classe 'visible'
+            observer.unobserve(entry.target); // Para de observar após a animação
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Dispara a animação quando 10% da seção estiver visível
+      }
+    );
+
+    // Observa cada seção
+    sectionsRef.current.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    // Limpa o observer ao desmontar o componente
+    return () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, []);
+
   return (
     <div className="App">
       <header className="header">
@@ -43,7 +73,11 @@ function App() {
       </header>
       <main className="main-content">
         {/* Seção Home */}
-        <section id="home">
+        <section
+          id="home"
+          className="section-animate" // Adiciona a classe de animação
+          ref={(el) => (sectionsRef.current[0] = el)} // Referência para a seção
+        >
           <div className="welcome-section">
             <div className="welcome-content">
               <h2>Bem-vindo ao meu portfólio!</h2>
@@ -53,7 +87,7 @@ function App() {
               <div className="about-me-text">
                 <h3>Sobre Mim</h3>
                 <p>
-                  Meu nome é <strong>Assis Neto</strong>, sou um desenvolvedor apaixonado por tecnologia. Com <strong>4 anos de experiência</strong> na área de TI, adoro desafios e estou sempre buscando aprender coisas novas. Aqui você pode conferir alguns dos meus trabalhos!
+                  Meu nome é <strong>Assis Neto</strong>. Tenho <strong>4 anos de experiência</strong> na área de TI, adoro desafios e estou sempre buscando aprender coisas novas. Aqui você pode conferir alguns dos meus trabalhos!
                 </p>
               </div>
               <div className="skills">
@@ -66,13 +100,17 @@ function App() {
               </div>
             </div>
             <div className="profile-picture">
-              <img src={fotoPerfil} alt="Foto de Perfil" /> {/* Use a imagem importada */}
+              <img src={fotoPerfil} alt="Foto de Perfil" />
             </div>
           </div>
         </section>
 
         {/* Seção Portfólio */}
-        <section id="portfolio">
+        <section
+          id="portfolio"
+          className="section-animate" // Adiciona a classe de animação
+          ref={(el) => (sectionsRef.current[1] = el)} // Referência para a seção
+        >
           <h2>Meus Projetos</h2>
           <div className="portfolio-grid">
             {projects.map((project) => (
@@ -94,7 +132,11 @@ function App() {
         </section>
 
         {/* Seção Contato */}
-        <section id="contato">
+        <section
+          id="contato"
+          className="section-animate" // Adiciona a classe de animação
+          ref={(el) => (sectionsRef.current[2] = el)} // Referência para a seção
+        >
           <h2>Contato</h2>
           <p>
             Entre em contato comigo através do formulário abaixo ou pelas redes sociais.
