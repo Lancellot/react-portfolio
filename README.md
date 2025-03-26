@@ -16,7 +16,7 @@ Você pode acessar o portfólio online aqui:
 - **GitHub Pages**: Hospedagem do site.
 
 ## 📁 Estrutura do Projeto
-
+````
 meu-portfolio/
 ├── public/ # Arquivos estáticos (HTML, imagens, etc.)               
 ├── src/ # Código-fonte do projeto                         
@@ -28,7 +28,7 @@ meu-portfolio/
 ├── package.json # Dependências e scripts do projeto                  
 ├── README.md # Este arquivo                    
 └── ... # Outros arquivos de configuração                             
-
+````
 
 
 ## 🚀 Como Rodar o Projeto Localmente
