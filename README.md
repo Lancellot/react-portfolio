@@ -1,6 +1,7 @@
 # Meu Portfólio
 
 Bem-vindo ao meu portfólio! Este é um projeto desenvolvido com **React**, **HTML**, **CSS** e **JavaScript** para exibir meus projetos e habilidades de forma moderna e responsiva.
+
 ![Static Badge](https://img.shields.io/badge/Status-40%25_Desenvolvido-yellow)
 ## 🚀 Visualização
 
