@@ -1,103 +1,66 @@
-# Meu Portfólio
+# Portfólio — Assis Pires Neto
 
-Bem-vindo ao meu portfólio! Este é um projeto desenvolvido com **React**, **HTML**, **CSS** e **JavaScript** para exibir meus projetos e habilidades de forma moderna e responsiva.
+Portfólio pessoal de **Assis Pires Neto**, desenvolvedor Full Stack com foco em Java/Spring Boot, TypeScript, Node.js, NestJS, React e Next.js.
 
-![Static Badge](https://img.shields.io/badge/Status-40%25_Desenvolvido-yellow)
-## 🚀 Visualização
+O site carrega automaticamente os repositórios públicos de [lancellot](https://github.com/lancellot), ignora forks e arquivados por padrão, oferece busca/filtro e mantém um cache local para reduzir chamadas à API.
 
-Você pode acessar o portfólio online aqui:  
-👉 [https://lacellot.github.io/react-portfolio](https://lancellot.github.io/react-portfolio/)
+## Tecnologias
 
-## 🛠️ Tecnologias Utilizadas
+- React 19 + TypeScript
+- Sass e CSS responsivo mobile-first
+- GitHub REST API com cache em `localStorage`
+- Create React App e GitHub Pages
+- Jest + React Testing Library
 
-- **React**: Biblioteca JavaScript para construção da interface do usuário.
-- **HTML**: Estruturação do conteúdo.
-- **CSS**: Estilização e design moderno.
-- **JavaScript**: Funcionalidades interativas.
-- **GitHub Pages**: Hospedagem do site.
+## Desenvolvimento local
 
-## 📁 Estrutura do Projeto
-````
-meu-portfolio/
-├── public/ # Arquivos estáticos (HTML, imagens, etc.)               
-├── src/ # Código-fonte do projeto                         
-│ ├── components/ # Componentes React                   
-│ ├── App.js # Componente principal                   
-│ ├── App.scss # Estilos globais                  
-│ ├── index.js # Ponto de entrada do React               
-│ └── img/ # Imagens do projeto            
-├── package.json # Dependências e scripts do projeto                  
-├── README.md # Este arquivo                    
-└── ... # Outros arquivos de configuração                             
-````
+```bash
+git clone https://github.com/lancellot/react-portfolio.git
+cd react-portfolio
+npm install
+npm start
+```
 
+Abra `http://localhost:3000`.
 
-## 🚀 Como Rodar o Projeto Localmente
+## Variáveis de ambiente
 
-Siga os passos abaixo para rodar o projeto na sua máquina:
+O token é opcional. Ele aumenta o limite da API do GitHub e nunca deve ser commitado:
 
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/seu-usuario/meu-portfolio.git
-   ```
+```bash
+# .env.local
+REACT_APP_GITHUB_TOKEN=seu_token_pessoal
+```
 
-    Instale as dependências:
-    ```bash
-    
+Também é aceito `VITE_GITHUB_TOKEN` para compatibilidade com ambientes Vite. O token é usado no cliente, portanto não deve ter permissões de escrita: crie um token somente leitura e considere que qualquer segredo exposto em uma aplicação frontend pode ser inspecionado no navegador.
 
-    cd meu-portfolio
-    npm install
-    ```
+Sem token, o site continua funcionando com a API pública. Se a API falhar, o cache disponível é mantido e a interface apresenta uma mensagem de aviso.
 
-    Inicie o servidor de desenvolvimento:
-    ```bash
-   
-    npm start
-    ```
-    Acesse o projeto:
-    Abra o navegador e acesse:
-    http://localhost:3000
+## Personalizar projetos em destaque
 
-🚀 Como Fazer o Deploy no GitHub Pages
+Edite [`src/config.ts`](./src/config.ts) e altere:
 
-Para publicar o projeto no GitHub Pages, siga os passos abaixo:
-    Instale o pacote gh-pages:  
-   ```bash
-    npm install gh-pages --save-dev
-   ```
- Adicione as configurações no package.json:
- Adicione as seguintes linhas:
-    
-   ```json
-   "homepage": "https://seu-usuario.github.io/meu-portfolio",
-   "scripts": {
-      "predeploy": "npm run build",
-      "deploy": "gh-pages -d build"
-    }
-   ```
-   Execute o deploy:
-   ```bash
-    npm run deploy
-   ```
-   Ative o GitHub Pages:
+```ts
+featured: ['velo', 'personal-blog'],
+includeForks: false,
+includeArchived: false,
+```
 
-   Vá para o repositório no GitHub.
+Os nomes em `featured` são comparados com o nome do repositório e aparecem primeiro. A integração também preserva os `topics` do GitHub, incluindo o topic `featured` caso você queira usá-lo na sua organização.
 
-   Clique em Settings > Pages.
+## Personalização de contato
 
-   Em Source, selecione o branch gh-pages e a pasta / (root).
+Os links de e-mail, WhatsApp, LinkedIn, GitHub e currículo ficam no objeto `contact` em [`src/config.ts`](./src/config.ts). Adicione seu arquivo `curriculo.pdf` em `public/` para ativar o download do currículo.
 
-   Clique em Save.
+## Scripts
 
-   Acesse seu site:
-   Seu site estará disponível em:
-   https://lancellot.github.io/react-portfolio/
+```bash
+npm start       # desenvolvimento
+npm test        # testes
+npm run build   # build de produção
+npm run deploy  # build e publicação no GitHub Pages
+```
 
+## Deploy
 
-📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-Feito por Assis
-Copy
-
+O projeto usa GitHub Pages. Confira o campo `homepage` no `package.json` e execute `npm run deploy`.
