@@ -3,15 +3,23 @@ import '@testing-library/jest-dom';
 import App from './App';
 
 beforeEach(() => {
-  global.fetch = jest.fn(() => Promise.resolve({
-    ok: true,
-    json: () => Promise.resolve([]),
-  })) as jest.Mock;
+  localStorage.clear();
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve([]),
+    }),
+  ) as jest.Mock;
 });
 
-test('renders the main portfolio sections', async () => {
+test('renders the portfolio sections and contact links', async () => {
   render(<App />);
-  expect(await screen.findByRole('heading', { name: /Transformo problemas/i })).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: /Constru/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /Sobre mim/i })).toBeInTheDocument();
-  expect(screen.getByRole('heading', { name: /Projetos reais/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Experi\u00eancia' })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Projetos' })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /WhatsApp/i })).toHaveAttribute(
+    'href',
+    'https://wa.me/5551997447884',
+  );
 });
