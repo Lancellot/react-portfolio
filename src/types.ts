@@ -19,6 +19,29 @@ export interface ProjectConfig {
   featured: string[];
   includeForks: boolean;
   includeArchived: boolean;
+  excludeRepositories: string[];
+  projects: PortfolioProjectConfig[];
+}
+
+export interface PortfolioProjectConfig {
+  id: string;
+  title: string;
+  description: string;
+  repositoryNames: string[];
+  technologies: string[];
+  featured: boolean;
+  allowForks?: boolean;
+}
+
+export interface PortfolioProject {
+  id: string;
+  name: string;
+  description: string;
+  repositories: GithubRepo[];
+  technologies: string[];
+  updated_at: string;
+  stargazers_count: number;
+  featured: boolean;
 }
 
 export interface GithubState {

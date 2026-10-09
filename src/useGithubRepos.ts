@@ -13,6 +13,11 @@ export function useGithubRepos(): GithubState {
 
   useEffect(() => {
     let active = true;
+    if (cached) {
+      return () => {
+        active = false;
+      };
+    }
     fetchGithubRepos()
       .then((repos) => {
         if (active) setState({ repos, loading: false, error: null, fromCache: false });
@@ -23,14 +28,14 @@ export function useGithubRepos(): GithubState {
             repos: current.repos.length ? current.repos : fallbackRepos,
             loading: false,
             error: error instanceof Error ? error.message : 'Unable to load projects.',
-            fromCache: current.repos.length > 0,
+            fromCache: Boolean(getCachedRepos()),
           }));
         }
       });
     return () => {
       active = false;
     };
-  }, []);
+  }, [cached]);
 
   return state;
 }
