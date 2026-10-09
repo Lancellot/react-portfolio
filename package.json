@@ -1,5 +1,5 @@
 {
-  "name": "projeto-react",
+  "name": "assis-pires-portfolio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,6 +20,9 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss,css}\" public/index.html README.md",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,css}\" public/index.html README.md",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -46,8 +49,7 @@
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "prettier": "^3.9.9"
   }
-  
-
 }
