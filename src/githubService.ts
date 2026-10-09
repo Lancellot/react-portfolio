@@ -118,23 +118,32 @@ export async function fetchGithubRepos(fetcher: typeof fetch = fetch): Promise<G
   const headers: HeadersInit = { Accept: 'application/vnd.github+json' };
   if (token) headers.Authorization = `Bearer ${token}`;
   const repos: GithubRepo[] = [];
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 12_000);
 
-  for (let page = 1; ; page += 1) {
-    const response = await fetcher(
-      `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated&page=${page}`,
-      { headers },
-    );
-    if (!response.ok)
-      throw new Error(
-        response.status === 403
-          ? 'GitHub API rate limit reached.'
-          : 'Unable to load GitHub repositories.',
+  try {
+    for (let page = 1; ; page += 1) {
+      const response = await fetcher(
+        `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated&page=${page}`,
+        { headers, signal: controller.signal },
       );
-    const body: unknown = await response.json();
-    if (!Array.isArray(body) || !body.every(isGithubRepo))
-      throw new Error('GitHub returned an invalid repository list.');
-    repos.push(...body);
-    if (body.length < 100) break;
+      if (!response.ok)
+        throw new Error(
+          response.status === 403
+            ? 'GitHub API rate limit reached.'
+            : 'Unable to load GitHub repositories.',
+        );
+      const body: unknown = await response.json();
+      if (!Array.isArray(body) || !body.every(isGithubRepo))
+        throw new Error('GitHub returned an invalid repository list.');
+      repos.push(...body);
+      if (body.length < 100) break;
+    }
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error('GitHub request timed out.');
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   const filtered = repos.filter(

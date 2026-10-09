@@ -49,6 +49,21 @@ test('reports rate limits clearly', async () => {
   await expect(fetchGithubRepos(fetcher as typeof fetch)).rejects.toThrow('rate limit');
 });
 
+test('times out requests that never resolve', async () => {
+  jest.useFakeTimers();
+  const fetcher = jest.fn(
+    (_url: string, options?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        options?.signal?.addEventListener('abort', () => reject(new Error('aborted')));
+      }),
+  );
+  const request = fetchGithubRepos(fetcher as typeof fetch);
+
+  jest.advanceTimersByTime(12_000);
+  await expect(request).rejects.toThrow('timed out');
+  jest.useRealTimers();
+});
+
 test('keeps only the Velo forks explicitly configured as project repositories', async () => {
   const fetcher = jest.fn().mockResolvedValue({
     ok: true,

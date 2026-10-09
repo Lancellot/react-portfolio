@@ -254,7 +254,7 @@ function App() {
             observer.unobserve(entry.target);
           }
         }),
-      { threshold: 0.08 },
+      { threshold: 0 },
     );
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
@@ -450,7 +450,7 @@ function App() {
             ))}
           </div>
         </section>
-        <section id="projetos" className="section section-animate">
+        <section id="projetos" className="section">
           <div className="section-heading projects-heading">
             <div>
               <p className="eyebrow">03 / {text.projects}</p>
