@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import './App.scss';
 import fotoPerfil from './img/foto-perfil.jpg';
-import { contact } from './config';
+import { contact, PROJECTS_PER_BATCH } from './config';
 import { groupGithubRepos, getRepositoryRole } from './githubService';
 import { Language, PortfolioProject } from './types';
 import { useGithubRepos } from './useGithubRepos';
@@ -28,6 +28,8 @@ const copy = {
     apiError:
       'N\u00e3o foi poss\u00edvel atualizar os projetos. Exibindo dados salvos ou exemplos locais.',
     empty: 'Nenhum projeto encontrado.',
+    loadMore: 'Mostrar mais',
+    loadingMore: 'Carregando mais projetos...',
     code: 'C\u00f3digo',
     backend: 'Back-end',
     frontend: 'Front-end',
@@ -69,6 +71,8 @@ const copy = {
     loading: 'Loading GitHub projects',
     apiError: 'Projects could not be refreshed. Showing saved data or local examples.',
     empty: 'No projects found.',
+    loadMore: 'Show more',
+    loadingMore: 'Loading more projects...',
     code: 'Code',
     backend: 'Back-end',
     frontend: 'Front-end',
@@ -221,13 +225,14 @@ function ProjectCard({ project, language }: { project: PortfolioProject; languag
 }
 
 function App() {
-  const { repos, loading, error } = useGithubRepos();
+  const { repos, loading, loadingMore, error, hasMore, loadMore } = useGithubRepos();
   const [language, setLanguage] = useState<Language>(() =>
     getPreference('portfolio-language') === 'en' ? 'en' : 'pt',
   );
   const [darkMode, setDarkMode] = useState(() => getPreference('portfolio-theme') === 'dark');
   const [query, setQuery] = useState('');
   const [technology, setTechnology] = useState('');
+  const [visibleProjectCount, setVisibleProjectCount] = useState(PROJECTS_PER_BATCH);
   const [activeSection, setActiveSection] = useState('inicio');
   const text = copy[language];
   const groupedProjects = useMemo(() => groupGithubRepos(repos), [repos]);
@@ -290,6 +295,7 @@ function App() {
         .filter((project) => !technology || project.technologies.includes(technology)),
     [groupedProjects, query, technology],
   );
+  const visibleProjects = filteredProjects.slice(0, visibleProjectCount);
 
   const submitContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -466,13 +472,22 @@ function App() {
               <span className="sr-only">{text.search}</span>
               <input
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setVisibleProjectCount(PROJECTS_PER_BATCH);
+                }}
                 placeholder={text.search}
               />
             </label>
             <label>
               <span className="sr-only">{text.all}</span>
-              <select value={technology} onChange={(event) => setTechnology(event.target.value)}>
+              <select
+                value={technology}
+                onChange={(event) => {
+                  setTechnology(event.target.value);
+                  setVisibleProjectCount(PROJECTS_PER_BATCH);
+                }}
+              >
                 <option value="">{text.all}</option>
                 {technologies.map((item) => (
                   <option key={item}>{item}</option>
@@ -493,7 +508,7 @@ function App() {
             </div>
           ) : filteredProjects.length ? (
             <div className="project-grid">
-              {filteredProjects.map((project) => (
+              {visibleProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} language={language} />
               ))}
             </div>
@@ -501,6 +516,21 @@ function App() {
             <p className="empty-state" role="status">
               {text.empty}
             </p>
+          )}
+          {!loading && (hasMore || visibleProjectCount < filteredProjects.length) && (
+            <div className="load-more-wrap">
+              <button
+                className="button button--small"
+                type="button"
+                disabled={loadingMore}
+                onClick={() => {
+                  setVisibleProjectCount((count) => count + PROJECTS_PER_BATCH);
+                  void loadMore();
+                }}
+              >
+                {loadingMore ? text.loadingMore : text.loadMore}
+              </button>
+            </div>
           )}
         </section>
         <section id="formacao" className="section section-animate">

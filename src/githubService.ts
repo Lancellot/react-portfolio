@@ -2,9 +2,16 @@ import { CACHE_KEY, CACHE_TTL, GITHUB_USER } from './config';
 import { projectConfig } from './projects.config';
 import { GithubRepo, PortfolioProject } from './types';
 
-interface CachedRepos {
+export interface CachedRepos {
   expiresAt: number;
   repos: GithubRepo[];
+  nextPage: number;
+  hasMore: boolean;
+}
+
+export interface GithubRepoPage {
+  repos: GithubRepo[];
+  hasMore: boolean;
 }
 const isBrowser = typeof window !== 'undefined';
 
@@ -71,31 +78,42 @@ export const fallbackRepos: GithubRepo[] = [
   ),
 ];
 
-function readCache(): GithubRepo[] | null {
+function readCache(): CachedRepos | null {
   if (!isBrowser) return null;
   try {
     const value = window.localStorage.getItem(CACHE_KEY);
     if (!value) return null;
-    const parsed = JSON.parse(value) as CachedRepos;
-    return parsed.expiresAt > Date.now() && Array.isArray(parsed.repos) ? parsed.repos : null;
+    const parsed = JSON.parse(value) as Partial<CachedRepos>;
+    if (parsed.expiresAt && parsed.expiresAt > Date.now() && Array.isArray(parsed.repos)) {
+      // Previous cache entries contained the complete repository list.
+      return {
+        expiresAt: parsed.expiresAt,
+        repos: parsed.repos,
+        nextPage: parsed.nextPage ?? Number.POSITIVE_INFINITY,
+        hasMore: parsed.hasMore ?? false,
+      };
+    }
+    return null;
   } catch {
     return null;
   }
 }
 
-function writeCache(repos: GithubRepo[]): void {
+function writeCache(repos: GithubRepo[], nextPage: number, hasMore: boolean): void {
   if (!isBrowser) return;
   try {
     window.localStorage.setItem(
       CACHE_KEY,
-      JSON.stringify({ repos, expiresAt: Date.now() + CACHE_TTL }),
+      JSON.stringify({ repos, nextPage, hasMore, expiresAt: Date.now() + CACHE_TTL }),
     );
   } catch {
     /* Cache storage is optional. */
   }
 }
 
-export const getCachedRepos = (): GithubRepo[] | null => readCache();
+export const getCachedRepos = (): CachedRepos | null => readCache();
+export const cacheGithubRepos = (repos: GithubRepo[], nextPage: number, hasMore: boolean): void =>
+  writeCache(repos, nextPage, hasMore);
 
 function isGithubRepo(value: unknown): value is GithubRepo {
   if (!value || typeof value !== 'object') return false;
@@ -113,53 +131,66 @@ function isGithubRepo(value: unknown): value is GithubRepo {
   );
 }
 
-export async function fetchGithubRepos(fetcher: typeof fetch = fetch): Promise<GithubRepo[]> {
+export async function fetchGithubReposPage(
+  page: number,
+  perPage = 6,
+  fetcher: typeof fetch = fetch,
+): Promise<GithubRepoPage> {
   const token = process.env.REACT_APP_GITHUB_TOKEN || process.env.VITE_GITHUB_TOKEN;
   const headers: HeadersInit = { Accept: 'application/vnd.github+json' };
   if (token) headers.Authorization = `Bearer ${token}`;
-  const repos: GithubRepo[] = [];
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 12_000);
 
   try {
-    for (let page = 1; ; page += 1) {
-      const response = await fetcher(
-        `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated&page=${page}`,
-        { headers, signal: controller.signal },
+    const response = await fetcher(
+      `https://api.github.com/users/${GITHUB_USER}/repos?per_page=${perPage}&sort=updated&page=${page}`,
+      { headers, signal: controller.signal },
+    );
+    if (!response.ok)
+      throw new Error(
+        response.status === 403
+          ? 'GitHub API rate limit reached.'
+          : 'Unable to load GitHub repositories.',
       );
-      if (!response.ok)
-        throw new Error(
-          response.status === 403
-            ? 'GitHub API rate limit reached.'
-            : 'Unable to load GitHub repositories.',
-        );
-      const body: unknown = await response.json();
-      if (!Array.isArray(body) || !body.every(isGithubRepo))
-        throw new Error('GitHub returned an invalid repository list.');
-      repos.push(...body);
-      if (body.length < 100) break;
-    }
+    const body: unknown = await response.json();
+    if (!Array.isArray(body) || !body.every(isGithubRepo))
+      throw new Error('GitHub returned an invalid repository list.');
+
+    const filtered = body.filter(
+      (repo) =>
+        (projectConfig.includeForks ||
+          !repo.fork ||
+          projectConfig.projects.some(
+            (project) =>
+              project.allowForks &&
+              project.repositoryNames.some((name) => normalize(name) === normalize(repo.name)),
+          )) &&
+        (projectConfig.includeArchived || !repo.archived) &&
+        !projectConfig.excludeRepositories.includes(repo.name.toLowerCase()),
+    );
+    const nextLink = response.headers?.get('Link') || '';
+    const hasMore = nextLink ? /rel="?next"?/.test(nextLink) : body.length === perPage;
+    return { repos: filtered, hasMore };
   } catch (error) {
     if (controller.signal.aborted) throw new Error('GitHub request timed out.');
     throw error;
   } finally {
     clearTimeout(timeoutId);
   }
+}
 
-  const filtered = repos.filter(
-    (repo) =>
-      (projectConfig.includeForks ||
-        !repo.fork ||
-        projectConfig.projects.some(
-          (project) =>
-            project.allowForks &&
-            project.repositoryNames.some((name) => normalize(name) === normalize(repo.name)),
-        )) &&
-      (projectConfig.includeArchived || !repo.archived) &&
-      !projectConfig.excludeRepositories.includes(repo.name.toLowerCase()),
-  );
-  writeCache(filtered);
-  return filtered;
+// Kept for callers that need a complete snapshot; the portfolio hook uses page-based loading.
+export async function fetchGithubRepos(fetcher: typeof fetch = fetch): Promise<GithubRepo[]> {
+  const repos: GithubRepo[] = [];
+  for (let pageNumber = 1; ; pageNumber += 1) {
+    const page = await fetchGithubReposPage(pageNumber, 100, fetcher);
+    repos.push(...page.repos);
+    if (!page.hasMore) {
+      cacheGithubRepos(repos, Number.POSITIVE_INFINITY, false);
+      return repos;
+    }
+  }
 }
 
 const normalize = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, '');

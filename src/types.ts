@@ -47,6 +47,9 @@ export interface PortfolioProject {
 export interface GithubState {
   repos: GithubRepo[];
   loading: boolean;
+  loadingMore: boolean;
   error: string | null;
   fromCache: boolean;
+  hasMore: boolean;
+  loadMore: () => Promise<void>;
 }

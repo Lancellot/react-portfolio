@@ -332,6 +332,11 @@ h3 {
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
 }
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
 .project-card {
   background: var(--surface);
   border: 1px solid var(--line);

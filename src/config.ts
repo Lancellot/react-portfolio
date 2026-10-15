@@ -1,6 +1,7 @@
 export const GITHUB_USER = 'Lancellot';
 export const CACHE_KEY = 'assis-github-repos-v2';
 export const CACHE_TTL = 1000 * 60 * 60;
+export const PROJECTS_PER_BATCH = 6;
 
 export { projectConfig } from './projects.config';
 
